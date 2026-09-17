@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Free Online OCR — Extract Text From Images In Your Browser</title>
+<meta name="description" content="Free online OCR tool that extracts text from images and photos. Runs entirely in your browser using WebAssembly - your image is never uploaded to a server.">
+<style>
+  :root{--bg:#0f1720;--card:#1a2532;--text:#e8edf2;--muted:#93a3b3;--accent:#4fa8ff;--border:#2a3745;}
+  *{box-sizing:border-box;}
+  body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--text);line-height:1.5;}
+  header{padding:2rem 1rem 1rem;text-align:center;}
+  h1{font-size:1.6rem;margin:0 0 .4rem;}
+  p.sub{color:var(--muted);margin:0;max-width:640px;margin:0 auto;}
+  main{max-width:760px;margin:0 auto;padding:1.5rem 1rem 3rem;}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1.5rem;margin-bottom:1.2rem;}
+  .dropzone{border:2px dashed var(--border);border-radius:10px;padding:2.2rem 1rem;text-align:center;cursor:pointer;transition:border-color .15s;}
+  .dropzone.drag{border-color:var(--accent);}
+  .dropzone input{display:none;}
+  .dropzone .hint{color:var(--muted);font-size:.9rem;margin-top:.4rem;}
+  #preview{max-width:100%;max-height:280px;margin-top:1rem;border-radius:8px;display:none;}
+  button{background:var(--accent);color:#04121f;border:none;border-radius:8px;padding:.7rem 1.4rem;font-size:1rem;font-weight:600;cursor:pointer;}
+  button:disabled{opacity:.5;cursor:not-allowed;}
+  select{background:var(--card);color:var(--text);border:1px solid var(--border);border-radius:6px;padding:.4rem .6rem;}
+  .row{display:flex;gap:.8rem;align-items:center;flex-wrap:wrap;margin-top:1rem;}
+  #status{color:var(--muted);font-size:.9rem;margin-top:.6rem;min-height:1.2em;}
+  progress{width:100%;height:8px;accent-color:var(--accent);}
+  textarea{width:100%;min-height:220px;background:#0d151d;color:var(--text);border:1px solid var(--border);border-radius:8px;padding:.8rem;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.9rem;resize:vertical;}
+  .actions{display:flex;gap:.6rem;margin-top:.8rem;flex-wrap:wrap;}
+  .actions button.secondary{background:transparent;border:1px solid var(--border);color:var(--text);}
+  footer{text-align:center;color:var(--muted);font-size:.82rem;padding:1.5rem 1rem 2.5rem;}
+  footer a{color:var(--accent);}
+  .privacy{font-size:.85rem;color:var(--muted);}
+  .privacy strong{color:var(--text);}
+</style>
+</head>
+<body>
+<header>
+  <h1>Free Online OCR</h1>
+  <p class="sub">Extract text from images and scanned documents. Everything runs locally in your browser via WebAssembly - nothing is uploaded anywhere.</p>
+</header>
+<main>
+  <div class="card">
+    <div class="dropzone" id="dropzone">
+      <div>Drop an image here, or click to choose a file</div>
+      <div class="hint">JPG, PNG, WEBP, BMP - screenshots, scans, and photos of text all work</div>
+      <input type="file" id="fileInput" accept="image/*">
+    </div>
+    <img id="preview" alt="preview">
+    <div class="row">
+      <label for="lang" class="hint">Language:</label>
+      <select id="lang">
+        <option value="eng" selected>English</option>
+        <option value="spa">Spanish</option>
+        <option value="fra">French</option>
+        <option value="deu">German</option>
+        <option value="por">Portuguese</option>
+        <option value="ita">Italian</option>
+        <option value="nld">Dutch</option>
+        <option value="rus">Russian</option>
+        <option value="chi_sim">Chinese (Simplified)</option>
+        <option value="jpn">Japanese</option>
+        <option value="ara">Arabic</option>
+        <option value="hin">Hindi</option>
+      </select>
+      <button id="runBtn" disabled>Extract Text</button>
+    </div>
+    <div id="status"></div>
+    <progress id="progressBar" value="0" max="1" style="display:none;"></progress>
+  </div>
+
+  <div class="card" id="resultCard" style="display:none;">
+    <label class="hint" for="output">Extracted text</label>
+    <textarea id="output" readonly placeholder="Extracted text will appear here..."></textarea>
+    <div class="actions">
+      <button id="copyBtn" class="secondary">Copy to clipboard</button>
+      <button id="downloadBtn" class="secondary">Download .txt</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <p class="privacy"><strong>How this works:</strong> this page loads the open-source Tesseract OCR engine compiled to WebAssembly and runs it directly in your browser tab. Your image file is read locally by JavaScript and is never sent to any server - you can disconnect your internet after the page and OCR engine have loaded and it will still work.</p>
+  </div>
+
+  <div id="ad-slot"></div>
+</main>
+<footer>
+  Free, ad-supported, no signup. Built with <a href="https://github.com/naptha/tesseract.js" target="_blank" rel="noopener">Tesseract.js</a> (Apache-2.0).
+</footer>
+<script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
