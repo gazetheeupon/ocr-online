@@ -107,6 +107,28 @@
     <p class="privacy"><strong>How this works:</strong> this page loads the open-source Tesseract OCR engine compiled to WebAssembly and runs it directly in your browser tab. Your image file is read locally by JavaScript and is never sent to any server - you can disconnect your internet after the page and OCR engine have loaded and it will still work.</p>
   </div>
 
+
+  <div class="card faq">
+    <h2>Troubleshooting</h2>
+    <details><summary>Extracted text has garbled characters or wrong words</summary>
+      <p>The OCR engine needs to know which language it's reading. Pick the matching language from the dropdown before running &mdash; English is selected by default, but this page also supports Spanish, French, German, Portuguese, Italian, Dutch, Russian, Chinese (Simplified), Japanese, Arabic, and Hindi.</p>
+    </details>
+    <details><summary>OCR seems stuck or the first run is very slow</summary>
+      <p>The first time you run OCR on a page load, your browser downloads the Tesseract WebAssembly engine and the selected language's trained data (a few megabytes). That only happens once per page load &mdash; after that, recognition itself is fast. A slow connection will make that first download take longer.</p>
+    </details>
+    <details><summary>The "Extract Text" button stays disabled after I choose a file</summary>
+      <p>Confirm the file is actually a JPG, PNG, WEBP, or BMP image. A HEIC photo straight off an iPhone won't load here directly &mdash; convert it with the <a href="https://gazetheeupon.github.io/heic-to-jpg/">HEIC to JPG converter</a> first, then run OCR on the result.</p>
+    </details>
+  </div>
+
+  <div class="card cli">
+    <h2>Prefer the command line?</h2>
+    <p class="privacy">The same open-source engine this page uses (Tesseract) is also a standalone CLI tool:</p>
+    <div class="cli-block">tesseract image.png output -l eng</div>
+    <p class="privacy">Install with <code>brew install tesseract</code> (macOS), <code>apt install tesseract-ocr</code> (Debian/Ubuntu), or from <a href="https://github.com/tesseract-ocr/tesseract">tesseract-ocr/tesseract</a> on Windows.</p>
+  </div>
+
+
   <div id="ad-slot" data-aads-unit="2455554"></div>
 </main>
 <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
